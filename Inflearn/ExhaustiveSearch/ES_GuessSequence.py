@@ -134,3 +134,30 @@ if __name__ == "__main__":
         # 현재 항의 분모는 연산을 진행할 때마다 이전 항의 분모의 값(1)에서 1씩 증가한 값(2)을
         # 이전 항의 분모(1)에 곱해준다 ---> 현재항의 분모: 1x2
     DFS(0, 0)
+
+
+# 강의 코드2 - 참고사항
+# 라이브러리 사용 - 순열과 조합을 자동으로 계산해줌
+import itertools as it  # 순열과 조합을 계산
+n, f = map(int, input().split())
+b = [1] * n
+for i in range(1, n):
+    b[i] = b[i - 1] * (n - i) // i
+
+a = list(range(1, n+1))  # 1 ~ n까지의 숫자들
+# 순열 라이브러리
+for tmp in it.permutations(a):  # a에 있는 숫자들에 대해 모든 순열을 계산한다.
+    print(tmp)
+for tmp in it.permutations(a, 3):  # a에 있는 숫자들 중에서 3개를 뽑아 모든 순열을 계산한다.
+    print(tmp)
+
+
+# 문제에 라이브러리 적용한 코드
+for tmp in it.permutations(a):
+    Sum = 0
+    for L, x in enumerate(tmp):  # L은 이항계수 b리스트에 접근하기 위한 것
+        Sum += (x * b[L])
+    if Sum == f:
+        for x in tmp:
+            print(x, end=' ')
+        break  # 가장 첫번째 for문을 정지한다. - 더 이상 순열을 검색하지 않음
